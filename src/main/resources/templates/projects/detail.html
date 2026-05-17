@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${project.name}">Projekt</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1 th:text="${project.name}"></h1>
+    <nav>
+        <a th:href="@{/projects}" class="btn-link">Tilbage</a>
+    </nav>
+</header>
+
+<main>
+    <section class="info-card">
+        <p><strong>Beskrivelse:</strong> <span th:text="${project.description}"></span></p>
+        <p><strong>Startdato:</strong> <span th:text="${project.startDate}"></span></p>
+        <p><strong>Deadline:</strong> <span th:text="${project.deadline}"></span></p>
+        <p><strong>Estimerede timer:</strong> <span th:text="${project.totalHours}"></span></p>
+        <p><strong>Arbejdsdage:</strong> <span th:text="${workDays}"></span></p>
+        <p><strong>Estimeret afslutning (8t/dag):</strong>
+            <span th:text="${estimatedEnd != null ? estimatedEnd : 'Ikke beregnet'}"></span></p>
+    </section>
+
+    <h2>Delprojekter</h2>
+    <div class="action-bar">
+        <a th:href="@{'/subprojects/new?projectId=' + ${project.id}}" class="btn-primary">+ Nyt Delprojekt</a>
+    </div>
+
+    <table class="data-table">
+        <thead>
+        <tr>
+            <th>Navn</th>
+            <th>Beskrivelse</th>
+            <th>Deadline</th>
+            <th>Estimerede timer</th>
+            <th>Handlinger</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sp : ${subProjects}">
+            <td><a th:href="@{'/subprojects/' + ${sp.id}}" th:text="${sp.name}"></a></td>
+            <td th:text="${sp.description}"></td>
+            <td th:text="${sp.deadline}"></td>
+            <td th:text="${sp.totalHours}"></td>
+            <td>
+                <a th:href="@{'/subprojects/' + ${sp.id} + '/edit'}" class="btn-link">Rediger</a>
+                <form th:action="@{'/subprojects/' + ${sp.id} + '/delete'}" method="post" style="display:inline">
+                    <input type="hidden" name="projectId" th:value="${project.id}">
+                    <button type="submit" class="btn-danger" onclick="return confirm('Slet delprojekt?')">Slet</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(subProjects)}">
+            <td colspan="5" class="empty">Ingen delprojekter endnu.</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
