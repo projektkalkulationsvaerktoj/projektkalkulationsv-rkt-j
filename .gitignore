@@ -10,5 +10,4 @@ target/
 *.docx
 ~$*
 *.log
-application-prod.properties
 application-dev.properties
