@@ -3,11 +3,13 @@ package com.alphasolutions.projectcalc.controller;
 import com.alphasolutions.projectcalc.model.User;
 import com.alphasolutions.projectcalc.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Optional;
 
@@ -18,6 +20,12 @@ public class LoginController {
 
     public LoginController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/ping")
+    @ResponseBody
+    public ResponseEntity<String> ping() {
+        return ResponseEntity.ok("OK");
     }
 
     @GetMapping("/")
