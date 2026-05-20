@@ -11,3 +11,4 @@ target/
 ~$*
 *.log
 application-prod.properties
+application-dev.properties
